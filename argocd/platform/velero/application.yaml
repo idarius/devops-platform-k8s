@@ -10,6 +10,13 @@ spec:
     repoURL: https://vmware-tanzu.github.io/helm-charts
     chart: velero
     targetRevision: 7.2.1
+    helm:
+      values: |
+        kubectl:
+          image:
+            repository: bitnami/kubectl
+            tag: 1.32.2
+            pullPolicy: IfNotPresent
 
   destination:
     server: https://kubernetes.default.svc
