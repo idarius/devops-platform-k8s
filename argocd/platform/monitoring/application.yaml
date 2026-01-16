@@ -10,34 +10,6 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
     targetRevision: 58.2.2
-    helm:
-      values: |
-        # Objectif : monitoring fonctionnel mais léger (cluster 1 node)
-        alertmanager:
-          enabled: false
-
-        prometheus:
-          prometheusSpec:
-            retention: 6h
-
-        grafana:
-          enabled: true
-
-        kubeStateMetrics:
-          enabled: true
-
-        nodeExporter:
-          enabled: true
-
-        # Désactive des composants qui ajoutent beaucoup de pods
-        kubeApiServer:
-          enabled: false
-        kubeControllerManager:
-          enabled: false
-        kubeScheduler:
-          enabled: false
-        kubeEtcd:
-          enabled: false
 
   destination:
     server: https://kubernetes.default.svc
