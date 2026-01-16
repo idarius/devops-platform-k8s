@@ -28,10 +28,7 @@ spec:
         service:
           type: LoadBalancer
 
-        # Enable basic dashboards & datasources
-        dashboards:
-          default:
-            enabled: false
+
 
   destination:
     server: https://kubernetes.default.svc
