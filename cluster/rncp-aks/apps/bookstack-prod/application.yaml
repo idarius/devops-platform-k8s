@@ -1,22 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-root
+  name: bookstack-prod
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
-  project: default
-
+  project: apps
   source:
-    repoURL: https://github.com/idarius/devops-platform-k8s.git
+    repoURL: https://github.com/idarius/devops-app-bookstack.git
     targetRevision: main
-    path: argocd/platform
-    directory:
-      recurse: true
-
+    path: k8s/overlays/prod
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
-
+    namespace: bookstack-prod
   syncPolicy:
     automated:
       prune: true

@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  description: "Projet Platform (Traefik, cert-manager, monitoring, velero)"
+
+  # Repos autorisés (Git et Helm repos)
+  sourceRepos:
+    - https://github.com/idarius/devops-platform-k8s.git
+    - https://helm.traefik.io/traefik
+    - https://charts.jetstack.io
+    - https://prometheus-community.github.io/helm-charts
+    - https://vmware-tanzu.github.io/helm-charts
+
+  # Où ces apps ont le droit d’être déployées
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: argocd
+    - server: https://kubernetes.default.svc
+      namespace: traefik
+    - server: https://kubernetes.default.svc
+      namespace: cert-manager
+    - server: https://kubernetes.default.svc
+      namespace: monitoring
+    - server: https://kubernetes.default.svc
+      namespace: velero
+
+  # Platform = souvent besoin de cluster-scoped (CRDs, ClusterRole, Webhook, etc.)
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  # on autorise tout en namespaced
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

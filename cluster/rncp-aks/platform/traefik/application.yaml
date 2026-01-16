@@ -3,8 +3,10 @@ kind: Application
 metadata:
   name: traefik
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
-  project: default
+  project: platform
 
   source:
     repoURL: https://traefik.github.io/charts
