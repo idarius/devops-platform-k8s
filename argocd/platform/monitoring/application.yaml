@@ -5,19 +5,38 @@ metadata:
   namespace: argocd
 spec:
   project: default
-
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
-    targetRevision: 58.2.2
+    targetRevision: 80.14.4
+    helm:
+      values: |
+        grafana:
+          enabled: true
 
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
+        prometheus:
+          prometheusSpec:
+            retention: 2d
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                cpu: 500m
+                memory: 1Gi
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+        alertmanager:
+          enabled: true
+
+        kubeEtcd:
+          enabled: false
+        kubeControllerManager:
+          enabled: false
+        kubeScheduler:
+          enabled: false
+
+        prometheus-node-exporter:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
