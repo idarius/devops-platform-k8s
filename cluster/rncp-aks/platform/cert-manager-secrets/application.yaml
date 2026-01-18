@@ -11,6 +11,7 @@ spec:
     repoURL: https://github.com/idarius/devops-platform-k8s.git
     targetRevision: main
     path: cluster/rncp-aks/platform/cert-manager-secrets
+    kustomize: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
