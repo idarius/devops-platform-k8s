@@ -1,26 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: external-dns-secrets
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   project: platform
   source:
-    repoURL: https://charts.jetstack.io
-    chart: cert-manager
-    targetRevision: 1.19.2
-    helm:
-      releaseName: cert-manager
-      values: |
-        # Important : installe les CRDs via Helm
-        # (équivalent à --set crds.enabled=true)
-        crds:
-          enabled: true
+    repoURL: https://github.com/idarius/devops-platform-k8s.git
+    targetRevision: main
+    path: cluster/rncp-aks/platform/external-dns-secrets
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: external-dns
   syncPolicy:
     automated:
       prune: true

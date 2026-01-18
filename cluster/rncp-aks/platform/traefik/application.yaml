@@ -7,20 +7,38 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   project: platform
-
   source:
     repoURL: https://traefik.github.io/charts
     chart: traefik
     targetRevision: 38.0.2
     helm:
+      releaseName: traefik
       values: |
         service:
           type: LoadBalancer
+          annotations:
+            external-dns.alpha.kubernetes.io/hostname: "bookstackdev.rncp.idarius.net,bookstackprod.rncp.idarius.net"
+            external-dns.alpha.kubernetes.io/ttl: "60"
 
+        # On n'expose pas le dashboard Traefik en public
+        ingressRoute:
+          dashboard:
+            enabled: false
+
+        # Mode "Ingress standard"
+        providers:
+          kubernetesIngress:
+            enabled: true
+          kubernetesCRD:
+            enabled: false
+
+        ingressClass:
+          enabled: true
+          isDefaultClass: false
+          name: traefik
   destination:
     server: https://kubernetes.default.svc
     namespace: traefik
-
   syncPolicy:
     automated:
       prune: true

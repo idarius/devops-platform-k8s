@@ -11,10 +11,12 @@ spec:
   # Repos autorisés (Git et Helm repos)
   sourceRepos:
     - https://github.com/idarius/devops-platform-k8s.git
+    - https://traefik.github.io/charts
     - https://helm.traefik.io/traefik
     - https://charts.jetstack.io
     - https://prometheus-community.github.io/helm-charts
     - https://vmware-tanzu.github.io/helm-charts
+    - https://kubernetes-sigs.github.io/external-dns
 
   # Où ces apps ont le droit d’être déployées
   destinations:
@@ -28,6 +30,8 @@ spec:
       namespace: monitoring
     - server: https://kubernetes.default.svc
       namespace: velero
+    - server: https://kubernetes.default.svc
+      namespace: external-dns
 
   # Platform = souvent besoin de cluster-scoped (CRDs, ClusterRole, Webhook, etc.)
   clusterResourceWhitelist:
